@@ -1,0 +1,3 @@
+[submodule "drcov-merge"]
+	path = drcov-merge
+	url = https://github.com/airbus-seclab/drcov-merge.git

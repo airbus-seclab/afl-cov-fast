@@ -1,0 +1,5 @@
+*.out
+*.gcno
+*.gcda
+*.profraw
+output
