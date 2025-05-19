@@ -86,11 +86,11 @@ async def run_cmd(
     if isinstance(cmd, str):
         cmd = shlex.split(cmd)
 
-    logging.debug("Running '%s' (env: %s)", cmd, env)
+    logging.debug("Running '%s' (stdin: %s, env: %s)", cmd, stdin, env)
     proc = await asyncio.create_subprocess_exec(
         *cmd,
         env=env,
-        stdin=stdin,
+        stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
