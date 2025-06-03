@@ -77,7 +77,8 @@ $ pip3 install -r requirements.txt
 
 For the QEMU backend, coverage is obtained using a QEMU TCG plugin. This is
 supported natively by AFL++ since
-[this commit](https://github.com/AFLplusplus/AFLplusplus/commit/a4017406dc02e49dbc3820e3eb5bee5e15d7fed1).
+[this commit](https://github.com/AFLplusplus/AFLplusplus/commit/a4017406dc02e49dbc3820e3eb5bee5e15d7fed1)
+present in [v4.10c](https://github.com/AFLplusplus/AFLplusplus/releases/tag/v4.10c).
 
 The QEMU plugins simply need to be compiled in AFL++:
 
