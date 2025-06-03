@@ -7,13 +7,9 @@ RUN apt update && apt install -y --no-install-recommends \
 
 # Build drcov-merge
 WORKDIR /build
-RUN --mount=type=secret,id=git_token \
-    export GIT_TOKEN=$(cat /run/secrets/git_token) && \
-    git clone "https://x-token-auth:$GIT_TOKEN@github.com/airbus-seclab/afl-cov-fast.git" && \
-    cd afl-cov-fast && \
-    git clone "https://x-token-auth:$GIT_TOKEN@github.com/airbus-seclab/drcov-merge.git" && \
-    cd drcov-merge && \
-    cargo build --release
+RUN git clone --recursive "https://github.com/airbus-seclab/afl-cov-fast.git" \
+    && cd afl-cov-fast/drcov-merge \
+    && cargo build --release
 
 FROM debian:bookworm-slim
 

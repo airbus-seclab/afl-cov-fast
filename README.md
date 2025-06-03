@@ -32,15 +32,12 @@ A `Dockerfile` is provided with pre-installed dependencies. To use it, the
 following commands can be used:
 
 ```bash
-$ DOCKER_BUILDKIT=1 docker build --secret id=git_token,src=.token -t afl-cov-fast .
-$ docker run --rm -it -v "${PWD}:/workdir" -v "<path-to-your-fuzzed-project>:<absolute-path-to-your-fuzzed-project>" -u `id -u`:`id -g` afl-cov-fast
+$ docker build -t afl-cov-fast .
+$ docker run --rm -it -v "${PWD}:/workdir" -v "<path-to-your-fuzzed-project>:<absolute-path-to-your-fuzzed-project>" -u `id -u`:`id -g` --name afl-cov-fast afl-cov-fast
 ```
 
 **Notes:**
 
-* A token is required to clone the drcov-merge repository. You can generate one
-  from [this page](https://github.com/settings/tokens) and save it in the
-  `.token` file;
 * You have to mount your project with the same path in the docker container when
   in GCC mode so that paths to coverage files are properly resolved. In other
   cases, you can use an arbitrary folder (e.g. `/project`);
