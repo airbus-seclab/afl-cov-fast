@@ -79,12 +79,16 @@ def prepare_coverage_cmd(coverage_cmd: str, input_file: pathlib.Path):
 async def run_cmd(
     cmd: Union[str, list],
     env: Optional[dict] = None,
-    timeout: Optional[int] = None,
+    timeout: Optional[float] = None,
     stdin: Optional[bytes] = None,
     redirect_stdout: Optional[pathlib.Path] = None,
 ):
     if isinstance(cmd, str):
         cmd = shlex.split(cmd)
+
+    # Handle user-specified negative timeout: asyncio expects None to disable it
+    if timeout is not None and timeout < 0:
+        timeout = None
 
     logging.debug("Running '%s' (stdin: %s, env: %s)", cmd, stdin, env)
     proc = await asyncio.create_subprocess_exec(
@@ -161,8 +165,8 @@ def common_args_parser(*args, **kwargs) -> argparse.ArgumentParser:
         "-t",
         "--timeout",
         type=float,
-        help="Timeout for target program run (in seconds, default: no timeout)",
-        default=None,
+        help="Timeout for target program run (in seconds, no timeout if < 0, default: %(default)s)",
+        default=1,
     )
     parser.add_argument(
         "-j",
