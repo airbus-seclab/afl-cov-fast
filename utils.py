@@ -147,14 +147,14 @@ def common_args_parser(*args, **kwargs) -> argparse.ArgumentParser:
         "-O",
         "--overwrite",
         action="store_true",
-        help="Overwrite output folder if it already exists (default: False)",
+        help="Overwrite output folder if it already exists (default: %(default)s)",
         default=False,
     )
     parser.add_argument(
         "-k",
         "--keep-intermediate",
         action="store_true",
-        help="Keep intermediate files (default: False)",
+        help="Keep intermediate files (default: %(default)s)",
         default=False,
     )
     parser.add_argument(
@@ -168,26 +168,26 @@ def common_args_parser(*args, **kwargs) -> argparse.ArgumentParser:
         "-j",
         "--jobs",
         type=int,
-        help="Maximum number of concurrent jobs (default: 1)",
+        help="Maximum number of concurrent jobs (default: %(default)s)",
         default=1,
     )
     parser.add_argument(
         "-l",
         "--log-level",
-        help="Tool output log level (default: WARNING)",
+        help="Tool output log level (default: %(default)s)",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         default="WARNING",
     )
     parser.add_argument(
         "--no-progress",
         action="store_true",
-        help="Disable progress bar output (default: False)",
+        help="Disable progress bar output (default: %(default)s)",
         default=False,
     )
     parser.add_argument(
         "--no-env-check",
         action="store_true",
-        help="Disable environment checks (e.g. commands are available and coverage files were properly generated, default: False)",
+        help="Disable environment checks (e.g. commands are available and coverage files were properly generated, default: %(default)s)",
         default=False,
     )
     return parser
