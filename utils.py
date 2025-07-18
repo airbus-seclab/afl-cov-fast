@@ -76,6 +76,17 @@ def prepare_coverage_cmd(coverage_cmd: str, input_file: pathlib.Path):
     return cmd, stdin
 
 
+def split_env_args(env_args: list) -> dict:
+    out = {}
+    for var in env_args:
+        try:
+            key, value = var.split("=", maxsplit=1)
+            out[key] = value
+        except ValueError as e:
+            logging.warning("Invalid environment variable argument: '%s' (%s)", var, e)
+    return out
+
+
 async def run_cmd(
     cmd: Union[str, list],
     env: Optional[dict] = None,
@@ -105,7 +116,7 @@ async def run_cmd(
             timeout=timeout,
         )
 
-        logging.debug("%s:\nstdout %s\nstderr: %s", cmd, stdout, stderr)
+        logging.debug("%s:\nstdout: %s\nstderr: %s", cmd, stdout, stderr)
 
         if redirect_stdout:
             with open(redirect_stdout, "wb") as f:
@@ -174,6 +185,13 @@ def common_args_parser(*args, **kwargs) -> argparse.ArgumentParser:
         type=int,
         help="Maximum number of concurrent jobs (default: %(default)s)",
         default=1,
+    )
+    parser.add_argument(
+        "-E",
+        "--env",
+        action="append",
+        help="Environment variables to set when running the target (example: 'AFL_PRELOAD=libdesock.so', default: %(default)s)",
+        default=[],
     )
     parser.add_argument(
         "-l",

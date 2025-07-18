@@ -87,6 +87,8 @@ async def generate_coverage(
     # We use environment variables to write coverage in the dedicated folder
     # to allow parallel runs
     env = {
+        **os.environ,
+        **utils.split_env_args(args.env),
         "GCOV_PREFIX": output_folder,
         "LD_PRELOAD": os.environ.get("AFL_PRELOAD", ""),
     }
@@ -116,7 +118,9 @@ async def coverage_worker(
     # If this worker didn't consume anything from the queue, exit early to avoid
     # running lcov without any input file
     if consumed_items == 0:
-        logging.debug("Worker at %s didn't consume any queue item, exiting early", gcov_dir)
+        logging.debug(
+            "Worker at %s didn't consume any queue item, exiting early", gcov_dir
+        )
         shutil.rmtree(gcov_dir)
         return None
 
@@ -173,9 +177,7 @@ async def merge_tracefiles(
 
     # Make sure there is at least one file left
     if not args.no_env_check and not input_files:
-        raise RuntimeError(
-            "No coverage file generated, is the AFL++ queue empty?"
-        )
+        raise RuntimeError("No coverage file generated, is the AFL++ queue empty?")
 
     # Create command line with all input file paths
     output_file = args.output_dir / "lcov" / f"trace.lcov_total"

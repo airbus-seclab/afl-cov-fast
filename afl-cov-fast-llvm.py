@@ -88,6 +88,8 @@ async def generate_coverage(
         # to allow parallel runs
         output_file = profraw_dir / "default-%p.profraw"
         env = {
+            **os.environ,
+            **utils.split_env_args(args.env),
             "LLVM_PROFILE_FILE": str(output_file),
             "LD_PRELOAD": os.environ.get("AFL_PRELOAD", ""),
         }

@@ -80,6 +80,7 @@ async def generate_coverage(
         )
         env = {
             **os.environ,
+            **utils.split_env_args(args.env),
             "QEMU_PLUGIN": f"{plugin_path},arg=filename={output_file}",
         }
 

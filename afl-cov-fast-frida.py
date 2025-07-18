@@ -74,6 +74,7 @@ async def generate_coverage(
         ld_preload += f":{args.afl_path}/afl-frida-trace.so"
         env = {
             **os.environ,
+            **utils.split_env_args(args.env),
             "AFL_FRIDA_INST_COVERAGE_FILE": output_file,
             "LD_PRELOAD": ld_preload,
         }
